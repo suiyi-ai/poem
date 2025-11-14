@@ -149,6 +149,22 @@ npm run dev
 npm run build
 ```
 
+构建后的文件在 `dist/` 目录中。
+
+### 5. 部署到 Netlify
+
+详细部署指南请查看 [NETLIFY_DEPLOY.md](./NETLIFY_DEPLOY.md)
+
+**快速部署步骤：**
+
+1. 将代码推送到 Git 仓库（GitHub/GitLab/Bitbucket）
+2. 在 [Netlify](https://app.netlify.com) 创建新站点
+3. 连接 Git 仓库
+4. 配置环境变量：
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+5. 点击部署（Netlify 会自动检测 `netlify.toml` 配置）
+
 ## 导入示例数据
 
 在 Supabase SQL Editor 中执行以下 SQL 导入示例数据：

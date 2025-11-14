@@ -1,0 +1,37 @@
+[build]
+  # 构建命令
+  command = "npm run build"
+  # 发布目录（Vite 默认输出到 dist）
+  publish = "dist"
+  # Node.js 版本
+  [build.environment]
+    NODE_VERSION = "18"
+
+# SPA 路由重定向规则（React Router 需要）
+# 所有路由都重定向到 index.html，让 React Router 处理
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 安全头设置
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# 静态资源缓存
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML 文件不缓存
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
