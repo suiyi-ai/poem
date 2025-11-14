@@ -138,6 +138,11 @@ npm run dev
 
 访问 http://localhost:3000
 
+**⚠️ 重要提示**：
+- **必须通过 Vite 开发服务器运行**，不要直接双击打开 `index.html` 文件
+- 直接打开 HTML 文件会导致 MIME 类型错误，因为浏览器无法处理 ES 模块和 JSX
+- 如果遇到 MIME 类型错误，请查看 [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+
 ### 4. 构建生产版本
 
 ```bash
@@ -190,11 +195,19 @@ INSERT INTO poems (title, content, author_id, appreciation, translation) VALUES
 - 用户收藏的诗词列表
 - 取消收藏功能
 
+## 常见问题
+
+### MIME 类型错误
+如果遇到 "Failed to load module script" 错误，请查看 [故障排除指南](./TROUBLESHOOTING.md)。
+
+**快速解决**：确保使用 `npm run dev` 启动开发服务器，不要直接打开 HTML 文件。
+
 ## 注意事项
 
 - 本项目使用 localStorage 存储用户ID（简化版用户系统）
 - 生产环境建议使用 Supabase Auth 实现真正的用户认证
 - 确保 Supabase 表的 RLS (Row Level Security) 策略配置正确，允许匿名读取
+- **必须通过开发服务器运行**，不支持直接打开 HTML 文件
 
 ## License
 
