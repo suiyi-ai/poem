@@ -1,0 +1,256 @@
+.poem-detail {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+  color: #333;
+}
+
+.back-btn:hover {
+  background: white;
+  transform: translateX(-5px);
+}
+
+.poem-main {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.poem-header-detail {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.poem-title-detail {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.author-link-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.author-name {
+  font-weight: 600;
+}
+
+.author-dynasty {
+  background: #667eea;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.poem-content-detail {
+  margin-bottom: 30px;
+}
+
+.poem-text {
+  font-size: 1.3rem;
+  line-height: 2.5;
+  color: #333;
+  text-align: center;
+  white-space: pre-line;
+  font-family: inherit;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 30px;
+  border-radius: 15px;
+}
+
+.poem-appreciation,
+.poem-translation {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid #667eea;
+}
+
+.poem-appreciation h3,
+.poem-translation h3 {
+  color: #667eea;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.poem-appreciation p,
+.poem-translation p {
+  line-height: 1.8;
+  color: #555;
+  white-space: pre-line;
+}
+
+.poem-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.collect-btn-detail {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.collect-btn-detail:hover {
+  transform: scale(1.05);
+}
+
+.collect-btn-detail.collected {
+  background: #28a745;
+}
+
+.poem-views {
+  color: #666;
+  font-size: 1rem;
+}
+
+.comments-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.comment-form {
+  margin-bottom: 30px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.comment-input:focus {
+  border-color: #667eea;
+}
+
+.comment-submit {
+  margin-top: 10px;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.comment-submit:hover {
+  transform: translateY(-2px);
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comment-item {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-user {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.comment-date {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.comment-content {
+  color: #555;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.no-comments {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  font-style: italic;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 60px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .poem-main {
+    padding: 20px;
+  }
+  
+  .poem-title-detail {
+    font-size: 1.8rem;
+  }
+  
+  .poem-text {
+    font-size: 1.1rem;
+    padding: 20px;
+  }
+}
+

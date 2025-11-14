@@ -1,0 +1,162 @@
+.collection {
+  padding: 20px 0;
+}
+
+.collection-title {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.collection-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.collection-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.collection-poem-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  flex: 1;
+}
+
+.collection-poem-title:hover {
+  color: #667eea;
+}
+
+.remove-btn {
+  background: #ff4757;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.remove-btn:hover {
+  background: #ff3838;
+  transform: scale(1.1);
+}
+
+.collection-poem-author {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.collection-poem-author:hover {
+  text-decoration: underline;
+}
+
+.collection-poem-preview {
+  color: #666;
+  line-height: 1.8;
+  white-space: pre-line;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.collection-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.collection-date {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.collection-views {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.collection-empty {
+  text-align: center;
+  padding: 100px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.collection-empty h2 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.collection-empty p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.go-home-btn {
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.go-home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

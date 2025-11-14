@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>诗词详情 - 诗词赏析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SimSun', 'STKaiti', 'KaiTi', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            margin-bottom: 30px;
+        }
+        
+        .back-button a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .back-button a:hover {
+            background: #5a6fd8;
+        }
+        
+        .poem-detail {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .poem-title {
+            font-size: 2.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .poem-meta {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .poem-content {
+            color: #444;
+            line-height: 2.5;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+        
+        .poem-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-section {
+            margin-bottom: 15px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 10px;
+        }
+        
+        .translation-section {
+            background: #e8f4fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .translation-title {
+            font-size: 1.2rem;
+            color: #2980b9;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .translation-content {
+            color: #2c3e50;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .notes-section {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .notes-title {
+            font-size: 1.2rem;
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .notes-content {
+            color: #7d6608;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .appreciations-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .appreciation-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .appreciation-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .appreciation-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .appreciation-content {
+            color: #555;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+        
+        .no-appreciations {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+            background: #ffeaea;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .poem-detail {
+                padding: 20px;
+            }
+            
+            .poem-title {
+                font-size: 2rem;
+            }
+            
+            .poem-content {
+                font-size: 1.2rem;
+                line-height: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a href="index.html">← 返回首页</a>
+        </div>
+        
+        <div id="poemDetail" class="poem-detail">
+            <div class="loading">正在加载诗词详情...</div>
+        </div>
+        
+        <div class="appreciations-section">
+            <h2 class="section-title">诗词赏析</h2>
+            <div id="appreciationsList">
+                <div class="loading">正在加载赏析内容...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from './supabase.js';
+        
+        const supabase = createClient();
+        
+        // 获取URL参数
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 加载诗词详情
+        async function loadPoemDetail() {
+            const poemId = getUrlParam('id');
+            
+            if (!poemId) {
+                document.getElementById('poemDetail').innerHTML = '<div class="error">诗词ID不存在</div>';
+                return;
+            }
+            
+            try {
+                const { data: poem, error } = await supabase
+                    .from('poems')
+                    .select(`
+                        *,
+                        authors (id, name, dynasty, biography)
+                    `)
+                    .eq('id', poemId)
+                    .single();
+                
+                if (error) throw error;
+                
+                if (!poem) {
+                    document.getElementById('poemDetail').innerHTML = '<div class="error">诗词不存在</div>';
+                    return;
+                }
+                
+                // 更新页面标题
+                document.title = `${poem.title} - 诗词赏析`;
+                
+                // 渲染诗词详情
+                document.getElementById('poemDetail').innerHTML = `
+                    <h1 class="poem-title">${poem.title}</h1>
+                    <div class="poem-meta">
+                        ${poem.authors?.name || '未知作者'} · ${poem.authors?.dynasty || '未知朝代'}
+                    </div>
+                    
+                    <div class="poem-content">${poem.content}</div>
+                    
+                    <div class="poem-info">
+                        <div class="info-section">
+                            <span class="info-label">标签:</span>
+                            ${poem.tags || '暂无标签'}
+                        </div>
+                        ${poem.translation ? `
+                            <div class="translation-section">
+                                <div class="translation-title">译文</div>
+                                <div class="translation-content">${poem.translation}</div>
+                            </div>
+                        ` : ''}
+                        ${poem.notes ? `
+                            <div class="notes-section">
+                                <div class="notes-title">注释</div>
+                                <div class="notes-content">${poem.notes}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                // 加载赏析内容
+                loadAppreciations(poem);
+                
+            } catch (error) {
+                document.getElementById('poemDetail').innerHTML = `<div class="error">加载失败: ${error.message}</div>`;
+            }
+        }
+        
+        // 加载赏析内容（使用诗词表中的 appreciation 字段）
+        function loadAppreciations(poem) {
+            const appreciationsList = document.getElementById('appreciationsList');
+            
+            if (poem.appreciation) {
+                appreciationsList.innerHTML = `
+                    <div class="appreciation-card">
+                        <div class="appreciation-title">诗词赏析</div>
+                        <div class="appreciation-content">${poem.appreciation}</div>
+                    </div>
+                `;
+            } else {
+                appreciationsList.innerHTML = '<div class="no-appreciations">暂无赏析内容</div>';
+            }
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPoemDetail();
+        });
+    </script>
+</body>
+</html>

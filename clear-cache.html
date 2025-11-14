@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>清除缓存工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>清除浏览器缓存工具</h1>
+    <p>点击下面的按钮清除所有缓存和Service Worker</p>
+    
+    <button onclick="clearServiceWorkers()">清除Service Worker</button>
+    <button onclick="clearCache()">清除缓存</button>
+    <button onclick="clearAll()">清除所有</button>
+    
+    <div id="result" class="result" style="display:none;"></div>
+
+    <script>
+        function showResult(message) {
+            const result = document.getElementById('result');
+            result.textContent = message;
+            result.style.display = 'block';
+        }
+
+        async function clearServiceWorkers() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for(let registration of registrations) {
+                        await registration.unregister();
+                    }
+                    showResult(`已清除 ${registrations.length} 个Service Worker`);
+                } catch (e) {
+                    showResult('清除Service Worker失败: ' + e.message);
+                }
+            } else {
+                showResult('浏览器不支持Service Worker');
+            }
+        }
+
+        async function clearCache() {
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                    showResult(`已清除 ${cacheNames.length} 个缓存`);
+                } catch (e) {
+                    showResult('清除缓存失败: ' + e.message);
+                }
+            } else {
+                showResult('浏览器不支持Cache API');
+            }
+        }
+
+        async function clearAll() {
+            await clearServiceWorkers();
+            await clearCache();
+            showResult('已清除所有缓存和Service Worker，请刷新页面！');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+

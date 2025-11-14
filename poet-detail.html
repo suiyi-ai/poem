@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>诗人详情 - 诗词赏析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SimSun', 'STKaiti', 'KaiTi', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            margin-bottom: 30px;
+        }
+        
+        .back-button a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .back-button a:hover {
+            background: #5a6fd8;
+        }
+        
+        .poet-detail {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .poet-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        .poet-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .poet-info {
+            flex: 1;
+        }
+        
+        .poet-name {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .poet-dynasty {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .poet-biography {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            white-space: pre-line;
+        }
+        
+        .poems-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .poems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .poem-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .poem-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #eef2ff;
+        }
+        
+        .poem-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .poem-dynasty {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .poem-content {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+            white-space: pre-line;
+        }
+        
+        .no-poems {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+            background: #ffeaea;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .poet-detail {
+                padding: 20px;
+            }
+            
+            .poet-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .poet-name {
+                font-size: 2rem;
+            }
+            
+            .poems-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a href="index.html">← 返回首页</a>
+        </div>
+        
+        <div id="poetDetail" class="poet-detail">
+            <div class="loading">正在加载诗人详情...</div>
+        </div>
+        
+        <div class="poems-section">
+            <h2 class="section-title">诗人作品</h2>
+            <div id="poemsList" class="poems-grid">
+                <div class="loading">正在加载作品...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from './supabase.js';
+        
+        const supabase = createClient();
+        
+        // 获取URL参数
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 加载诗人详情
+        async function loadPoetDetail() {
+            const poetId = getUrlParam('id');
+            
+            if (!poetId) {
+                document.getElementById('poetDetail').innerHTML = '<div class="error">诗人ID不存在</div>';
+                return;
+            }
+            
+            try {
+                const { data: poet, error } = await supabase
+                    .from('authors')
+                    .select('*')
+                    .eq('id', poetId)
+                    .single();
+                
+                if (error) throw error;
+                
+                if (!poet) {
+                    document.getElementById('poetDetail').innerHTML = '<div class="error">诗人不存在</div>';
+                    return;
+                }
+                
+                // 更新页面标题
+                document.title = `${poet.name} - 诗人详情`;
+                
+                // 渲染诗人详情
+                document.getElementById('poetDetail').innerHTML = `
+                    <div class="poet-header">
+                        <img src="${poet.image_url || 'https://via.placeholder.com/150x150?text=诗人画像'}" 
+                             alt="${poet.name}" 
+                             class="poet-image"
+                             onerror="this.src='https://via.placeholder.com/150x150?text=诗人画像';">
+                        <div class="poet-info">
+                            <h1 class="poet-name">${poet.name}</h1>
+                            <div class="poet-dynasty">${poet.dynasty}</div>
+                        </div>
+                    </div>
+                    <div class="poet-biography">${poet.biography || '暂无诗人简介'}</div>
+                `;
+                
+                // 加载诗人的作品
+                loadPoetPoems(poetId);
+                
+            } catch (error) {
+                document.getElementById('poetDetail').innerHTML = `<div class="error">加载失败: ${error.message}</div>`;
+            }
+        }
+        
+        // 加载诗人的作品
+        async function loadPoetPoems(poetId) {
+            try {
+                const { data: poems, error } = await supabase
+                    .from('poems')
+                    .select('*')
+                    .eq('author_id', poetId)
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                const poemsList = document.getElementById('poemsList');
+                
+                if (poems.length === 0) {
+                    poemsList.innerHTML = '<div class="no-poems">该诗人暂无作品</div>';
+                    return;
+                }
+                
+                poemsList.innerHTML = poems.map(poem => `
+                    <div class="poem-card" onclick="showPoemDetail('${poem.id}')">
+                        <div class="poem-title">${poem.title}</div>
+                        <div class="poem-dynasty">${poem.dynasty || '未知朝代'}</div>
+                        <div class="poem-content">${poem.content.split('\\n').slice(0, 3).join('\\n')}</div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                document.getElementById('poemsList').innerHTML = `<div class="error">加载作品失败: ${error.message}</div>`;
+            }
+        }
+        
+        // 显示诗词详情（跳转到详情页）
+        function showPoemDetail(poemId) {
+            window.location.href = `poem-detail.html?id=${poemId}`;
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPoetDetail();
+        });
+    </script>
+</body>
+</html>
