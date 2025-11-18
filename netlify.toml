@@ -6,6 +6,8 @@
   # Node.js 版本
   [build.environment]
     NODE_VERSION = "18"
+    # 确保使用 npm（而不是其他包管理器）
+    NPM_FLAGS = "--legacy-peer-deps"
 
 # SPA 路由重定向规则（React Router 需要）
 # 所有路由都重定向到 index.html，让 React Router 处理
